@@ -6,14 +6,15 @@
 /*   By: pmedina- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 20:13:55 by pmedina-          #+#    #+#             */
-/*   Updated: 2021/10/17 23:09:31 by pmedina-         ###   ########.fr       */
+/*   Updated: 2021/10/18 22:06:15 by pmedina-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
+// Constructors and destructor
 
-Fixed::Fixed() : value(0) {
+Fixed::Fixed() : _value(0) {
 }
 
 Fixed::~Fixed() {
@@ -23,19 +24,85 @@ Fixed::Fixed(const Fixed& fixed) {
 	*this = fixed;
 }
 
-Fixed::Fixed(int intValue) : value(intValue * (1 << this->fractionalBits)){
+Fixed::Fixed(int intValue) : _value(intValue * (1 << this->fractionalBits)){
 }
 
-Fixed::Fixed(float floatValue) : value(roundf(floatValue * (1 << this->fractionalBits))) {
+Fixed::Fixed(float floatValue) : _value(roundf(floatValue * (1 << this->fractionalBits))) {
 }
+
+// Operators from previous exercises
 
 Fixed& Fixed::operator=(Fixed const &copy) {
-	value = copy.getRawBits();
+	_value = copy.getRawBits();
 	return *this;
 }
 
+std::ostream& operator<<(std::ostream &os, Fixed const &fixed) {
+	os << fixed.toFloat();
+	return os;
+}
+
+// Getter & Setter
+
+int Fixed::getRawBits() const {
+	return _value;
+}
+
+void Fixed::setRawBits(int rawBits) {
+	_value = rawBits;
+	return ;
+}
+
+float Fixed::toFloat(void) const {
+	return ((float)_value / (float)(1 << this->fractionalBits));
+}
+
+int Fixed::toInt(void) const {
+	return _value / (1 << this->fractionalBits);
+}
+
+// Comparison operators
+
+bool Fixed::operator<(Fixed const &f) const {
+	if (_value < f._value)
+		return true;
+	return false;
+}
+
+bool Fixed::operator>(Fixed const &f) const {
+	if (_value > f._value)
+		return true;
+	return false;
+}
+
+bool Fixed::operator<=(Fixed const &f) const {
+	if (_value <= f._value)
+		return true;
+	return false;
+}
+
+bool Fixed::operator>=(Fixed const &f) const {
+	if (_value >= f._value)
+		return true;
+	return false;
+}
+
+bool Fixed::operator==(Fixed const &f) const {
+	if (_value == f._value)
+		return true;
+	return false;
+}
+
+bool Fixed::operator!=(Fixed const &f) const {
+	if (_value != f._value)
+		return true;
+	return false;
+}
+
+// Pre and post increment & decrement
+
 Fixed Fixed::operator++() {
-	value++;
+	_value++;
 	return *this;
 }
 
@@ -46,40 +113,90 @@ Fixed Fixed::operator++(int) {
 }
 
 Fixed Fixed::operator--() {
-	value--;
+	_value--;
 	return *this;
 }
 
 Fixed Fixed::operator--(int) {
 	Fixed copy(*this);
-	value--;
+	_value--;
 	return copy;
+}
+
+// Arithmetic operators
+
+Fixed Fixed::operator+(Fixed const &fixed) {
+	Fixed f;
+	f.setRawBits(_value + fixed._value);
+	return f;
+}
+
+Fixed Fixed::operator-(Fixed const &fixed) {
+	Fixed f;
+	f.setRawBits(_value - fixed._value);
+	return f;
 }
 
 Fixed Fixed::operator*(Fixed const &fixed) {
 	Fixed f;
-	f.setRawBits(value * fixed.value);
+	f.setRawBits(_value / (float)(1 << this->fractionalBits) * fixed._value);
 	return f;
 }
 
-std::ostream& operator<<(std::ostream &os, Fixed const &fixed) {
-	os << fixed.toFloat();
-	return os;
+Fixed Fixed::operator/(Fixed const &fixed) {
+	Fixed f;
+	f.setRawBits(_value * (float)(1 << this->fractionalBits) / fixed._value);
+	return f;
 }
 
-int Fixed::getRawBits() const {
-	return value;
+// Class member functions
+
+const Fixed& Fixed::min(Fixed const &a, Fixed const &b) {
+	if (a < b)
+		return a;
+	return b;
 }
 
-void Fixed::setRawBits(int rawBits) {
-	value = rawBits;
-	return ;
+const Fixed& Fixed::max(Fixed const &a, Fixed const &b) {
+	if (a > b)
+		return a;
+	return b;
 }
 
-float Fixed::toFloat(void) const {
-	return ((float)value / (float)(1 << this->fractionalBits));
+Fixed& Fixed::min(Fixed &a, Fixed &b) {
+	if (a < b)
+		return a;
+	return b;
 }
 
-int Fixed::toInt(void) const {
-	return value / (1 << this->fractionalBits);
+Fixed& Fixed::max(Fixed &a, Fixed &b) {
+	if (a > b)
+		return a;
+	return b;
+}
+
+// External function definitions
+
+const Fixed& min(Fixed const &a, Fixed const &b) {
+	if (a < b)
+		return a;
+	return b;
+}
+
+const Fixed& max(Fixed const &a, Fixed const &b) {
+	if (a > b)
+		return a;
+	return b;
+}
+
+Fixed& min(Fixed &a, Fixed &b) {
+	if (a < b)
+		return a;
+	return b;
+}
+
+Fixed& max(Fixed &a, Fixed &b) {
+	if (a > b)
+		return a;
+	return b;	
 }
