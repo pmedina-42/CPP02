@@ -6,7 +6,7 @@
 /*   By: pmedina- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 22:37:49 by pmedina-          #+#    #+#             */
-/*   Updated: 2021/10/19 23:43:07 by pmedina-         ###   ########.fr       */
+/*   Updated: 2021/10/20 23:26:29 by pmedina-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,24 @@ Point::Point(const Point &p) {
 	*this = p;
 }
 
-Point::Point(const float x, const float y) {
-	Fixed a(x), b(y);
-	_x.setRawBits(a.getRawBits());
-	_y.setRawBits(b.getRawBits());
-	return ;
+Point::Point(Point &p) {
+	*this = p;
 }
 
-Point& Point::operator=(Point const &p) {
-	_x.setRawBits(p._x.getRawBits());
-	_y.setRawBits(p._x.getRawBits());
-	return *this;
+Point::Point(const float x, const float y) : _x(Fixed(x)), _y(Fixed(y)) { }
+
+Point& Point::operator=(Point &p) {
+	return p;
 }
 
-const Fixed& Point::get_x(void) {
+const Point& Point::operator=(const Point &p) {
+	return p;
+}
+
+const Fixed& Point::get_x(void) const {
 	return _x;
 }
 
-void Point::set_x(const Fixed& f) {
-	_x = f;
-	return ;
-}
-
-const Fixed& Point::get_y(void) {
+const Fixed& Point::get_y(void) const {
 	return _y;
-}
-
-void Point::set_y(const Fixed& f) {
-	_y = f;
-	return ;
 }

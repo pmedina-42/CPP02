@@ -6,7 +6,7 @@
 /*   By: pmedina- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 20:13:55 by pmedina-          #+#    #+#             */
-/*   Updated: 2021/10/19 23:38:21 by pmedina-         ###   ########.fr       */
+/*   Updated: 2021/10/20 21:00:34 by pmedina-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,7 @@ Fixed::Fixed(float floatValue) : _value(roundf(floatValue * (1 << this->fraction
 
 // Operators from previous exercises
 
-/*Fixed& Fixed::operator=(Fixed const &copy) {
-	_value = copy.getRawBits();
-	return *this;
-}*/
-
-Fixed& Fixed::operator=(Fixed const &copy) {
+const Fixed& Fixed::operator=(Fixed const &copy) {
 	_value = copy.getRawBits();
 	return *this;
 }
@@ -53,7 +48,7 @@ int Fixed::getRawBits() const {
 	return _value;
 }
 
-void Fixed::setRawBits(int rawBits) {
+void Fixed::setRawBits(const int rawBits) {
 	_value = rawBits;
 	return ;
 }

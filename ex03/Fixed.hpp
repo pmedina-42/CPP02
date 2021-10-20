@@ -6,7 +6,7 @@
 /*   By: pmedina- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 20:04:22 by pmedina-          #+#    #+#             */
-/*   Updated: 2021/10/19 23:38:39 by pmedina-         ###   ########.fr       */
+/*   Updated: 2021/10/20 21:00:44 by pmedina-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ class Fixed {
 		void setRawBits(int const raw);
 		float toFloat(void) const;
 		int toInt(void) const;
-		Fixed& operator=(Fixed const &copy);
-
+		const Fixed& operator=(Fixed const &copy);
+		
 		/* Operators & ex02 */
 
 		Fixed operator++();
