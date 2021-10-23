@@ -6,13 +6,13 @@
 /*   By: pmedina- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 20:49:50 by pmedina-          #+#    #+#             */
-/*   Updated: 2021/10/20 23:25:53 by pmedina-         ###   ########.fr       */
+/*   Updated: 2021/10/23 17:41:06 by pmedina-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Point.hpp"
 
-bool bsp(Point const &a, Point const &b, Point const &c, Point const &point);
+bool bsp(Point const a, Point const b, Point const c, Point const point);
 
 int main (void) {
 	
