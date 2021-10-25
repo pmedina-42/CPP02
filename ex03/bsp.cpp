@@ -6,39 +6,41 @@
 /*   By: pmedina- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:17:23 by pmedina-          #+#    #+#             */
-/*   Updated: 2021/10/23 18:06:21 by pmedina-         ###   ########.fr       */
+/*   Updated: 2021/10/25 19:03:15 by pmedina-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Point.hpp"
 
-void vdir(Point const a, Point const b, Point const c, Point const p) {
+const Fixed pv(Point const p, Point const p1, Point const p2) {
 
-	Fixed ax = a.get_x();
-	Fixed bx = b.get_x();
-	Fixed cx = c.get_x();
-	Fixed ay = a.get_y();
-	Fixed by = b.get_y();
-	Fixed cy = c.get_y();
 	Fixed px = p.get_x();
+	Fixed p1x = p1.get_x();
+	Fixed p2x = p2.get_x();
 	Fixed py = p.get_y();
+	Fixed p1y = p1.get_y();
+	Fixed p2y = p2.get_y();
 	
-	Fixed v1x(ax - bx);
-	Fixed v1y(ay - by);
-	Fixed v2x(ax - cx);
-	Fixed v2y(ay - cy);
-	Fixed v3x(ax - px);
-	Fixed v3y(ay - py);
-
+	Fixed v1x = px - p1x;
+	Fixed v1y = py - p1y;
+	Fixed v2x = px - p2x;
+	Fixed v2y = py - p2y;
 	
+	return (v1x * v2y - v2x * v1y);
 }
 
 bool bsp(Point const a, Point const b, Point const c, Point const point) {
 
-	// Pongo una referencia en el 0,0 para hacer los calculos
-	Point zero = Point();
-	(void)point, (void)a, (void)b, (void)c;
-	//Fixed area = (a.get_x() * (b.get_y() - c.get_y()) + b.get_x() * (c.get_y() - a.get_y()) + c.get_x() * (a.get_y() - b.get_y())) / 2;
+	Fixed zero = Fixed();
+	Fixed p1 = pv(point, a, b);
+	Fixed p2 = pv(point, b, c);
+	Fixed p3 = pv(point, c, a);
 
-	return true;
+	if (zero > p1 && zero > p1 && zero > p2 && zero > p3) {
+		return true;
+	}
+	if (zero < p1 && zero < p1 && zero < p2 && zero < p3) {
+		return true;
+	}
+	return false;
 }
